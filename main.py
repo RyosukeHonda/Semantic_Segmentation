@@ -128,7 +128,7 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
         for batch in get_batches_fn(batch_size):
             idx +=1
             batch_images, batch_gts = batch
-            _,loss =sess.run([train_op,cross_entropy_loss] , feed_dict={input_image:batch_images , keep_prob:0.70 , correct_label:batch_gts , learning_rate:1e-4})
+            _,loss =sess.run([train_op,cross_entropy_loss] , feed_dict={input_image:batch_images , keep_prob:0.80 , correct_label:batch_gts , learning_rate:1e-4})
 
             #print out loss
             if (idx % 2 == 0):
@@ -154,7 +154,7 @@ def run():
     #  https://www.cityscapes-dataset.com/
 
 
-    epochs = 5
+    epochs = 7
     batch_size = 2
 
     with tf.Session() as sess:
