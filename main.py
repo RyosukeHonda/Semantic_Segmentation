@@ -129,7 +129,7 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
         for batch in get_batches_fn(batch_size):
             idx +=1
             batch_images, batch_gts = batch
-            _,loss =sess.run([train_op,cross_entropy_loss] , feed_dict={input_image:batch_images , keep_prob:0.85 , correct_label:batch_gts , learning_rate:0.001})
+            _,loss =sess.run([train_op,cross_entropy_loss] , feed_dict={input_image:batch_images , keep_prob:0.4 , correct_label:batch_gts , learning_rate:0.001})
 
             #best param
             #_,loss =sess.run([train_op,cross_entropy_loss] , feed_dict={input_image:batch_images , keep_prob:0.85 , correct_label:batch_gts , learning_rate:0.001})
@@ -158,8 +158,8 @@ def run():
     #  https://www.cityscapes-dataset.com/
 
 
-    epochs = 10
-    batch_size = 16
+    epochs = 40
+    batch_size = 32
 
     # epochs = 10
     #batch_size = 16 is the best so far
