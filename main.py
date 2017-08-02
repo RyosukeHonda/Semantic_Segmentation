@@ -101,7 +101,7 @@ def optimize(nn_last_layer, correct_label, learning_rate, num_classes):
     #calculate loss
     cross_entropy_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits = logits, labels = reshaped_labels))
     #Optimization
-    train_op = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy_loss)
+    train_op = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy_loss)
     #GradientDescent is best so far
     return logits,train_op,cross_entropy_loss
 tests.test_optimize(optimize)
@@ -129,10 +129,7 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
         for batch in get_batches_fn(batch_size):
             idx +=1
             batch_images, batch_gts = batch
-            _,loss =sess.run([train_op,cross_entropy_loss] , feed_dict={input_image:batch_images , keep_prob:0.4 , correct_label:batch_gts , learning_rate:0.001})
-
-            #best param
-            #_,loss =sess.run([train_op,cross_entropy_loss] , feed_dict={input_image:batch_images , keep_prob:0.85 , correct_label:batch_gts , learning_rate:0.001})
+            _,loss =sess.run([train_op,cross_entropy_loss] , feed_dict={input_image:batch_images , keep_prob:0.41 , correct_label:batch_gts , learning_rate:0.0026})
 
             #print out loss
             if (idx % 2 == 0):
@@ -158,12 +155,9 @@ def run():
     #  https://www.cityscapes-dataset.com/
 
 
-    epochs = 40
-    batch_size = 32
-
-    # epochs = 10
-    #batch_size = 16 is the best so far
-
+    epochs = 6
+    batch_size = 8
+    
     with tf.Session() as sess:
         # Path to vgg model
         vgg_path = os.path.join(data_dir, 'vgg')
@@ -187,6 +181,9 @@ def run():
         # TODO: Save inference data using helper.save_inference_samples
         helper.save_inference_samples(runs_dir, data_dir, sess, image_shape, logits, keep_prob, image_input)
 
+
+if __name__ == '__main__':
+    run()
 
 if __name__ == '__main__':
     run()
